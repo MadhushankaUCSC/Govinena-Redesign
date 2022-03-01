@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <div>
       <div style={backgroundStyle}>
-        <h1 style={headingStyle}>Welcome</h1>
+        <h1 style={headingStyle}>Govinena Home Gardening</h1>
       </div>
     </div>
   )

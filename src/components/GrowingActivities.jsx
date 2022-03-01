@@ -42,7 +42,7 @@ export default function GrowingActivities() {
 
                         <List >
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('/varieties') }} style={buttonStyle}>
+                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
                                     <ListItemText style={buttonTextStyle}
                                         primary="15/02/2022"
                                         secondary={
@@ -52,12 +52,12 @@ export default function GrowingActivities() {
 
                                         }
                                     />
-                                    <ArrowForwardIosIcon style={{fontSize:"small"}}/>
+                                    <ArrowForwardIosIcon style={{ fontSize: "small" }} />
                                 </Button>
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('Mango') }} style={buttonStyle}>
+                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
 
                                     <ListItemText style={buttonTextStyle}
                                         primary="16/02/2022"
@@ -68,12 +68,12 @@ export default function GrowingActivities() {
 
                                         }
                                     />
-                                    <ArrowForwardIosIcon style={{fontSize:"small"}}/>
+                                    <ArrowForwardIosIcon style={{ fontSize: "small" }} />
                                 </Button>
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('Papaw') }} style={buttonStyle}>
+                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
 
                                     <ListItemText style={buttonTextStyle}
                                         primary="17/02/2022"
@@ -84,12 +84,12 @@ export default function GrowingActivities() {
 
                                         }
                                     />
-                                    <ArrowForwardIosIcon style={{fontSize:"small"}}/>
+                                    <ArrowForwardIosIcon style={{ fontSize: "small" }} />
                                 </Button>
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('Beans') }} style={buttonStyle}>
+                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
 
                                     <ListItemText style={buttonTextStyle}
                                         primary="18/02/2022"
@@ -100,12 +100,12 @@ export default function GrowingActivities() {
 
                                         }
                                     />
-                                    <ArrowForwardIosIcon style={{fontSize:"small"}}/>
+                                    <ArrowForwardIosIcon style={{ fontSize: "small" }} />
                                 </Button>
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('Tomato') }} style={buttonStyle}>
+                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
 
                                     <ListItemText style={buttonTextStyle}
                                         primary="19/02/2022"
@@ -118,7 +118,7 @@ export default function GrowingActivities() {
 
                                     />
 
-                                    <ArrowForwardIosIcon style={{fontSize:"small"}}/>
+                                    <ArrowForwardIosIcon style={{ fontSize: "small" }} />
                                 </Button>
                             </ListItem>
                         </List>

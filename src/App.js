@@ -13,6 +13,11 @@ import VarietySummerPage from "./views/VarietySummerPage";
 import GrowListPage from "./views/GrowListPage";
 import GrowingActivityPage from "./views/GrowingActivityPage";
 import WelcomeTourPage from "./views/WelcomeTourPage";
+import HelpfulInfoPage from "./views/HelpfulInfoPage";
+import CreatePostView from "./views/CreatePostView";
+import PostComments from "./views/PostComments";
+import ActivityCalendarView from "./views/ActivityCalendarView";
+import ActivityCompleteView from "./views/ActivityCompleteView";
 
 function App() {
   return (
@@ -29,6 +34,11 @@ function App() {
         <Route path="/growlist" element={<GrowListPage />} />
         <Route path="/growingactivities" element={<GrowingActivityPage />} />
         <Route path="/welcometour" element={<WelcomeTourPage />} />
+        <Route path="/helpfullinfo" element={<HelpfulInfoPage />} />
+        <Route path="/createpost" element={<CreatePostView />} />
+        <Route path="/postcomments" element={<PostComments />} />
+        <Route path="/activitycalendar" element={<ActivityCalendarView />} />
+        <Route path="/activitycompletion" element={<ActivityCompleteView />} />
 
 
       </Routes>
