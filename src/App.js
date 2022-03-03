@@ -18,6 +18,9 @@ import CreatePostView from "./views/CreatePostView";
 import PostComments from "./views/PostComments";
 import ActivityCalendarView from "./views/ActivityCalendarView";
 import ActivityCompleteView from "./views/ActivityCompleteView";
+import CommunityPage from "./views/CommunityPage";
+import ProfilePage from "./views/ProfilePage";
+import WeatherPage from "./views/WeatherPage";
 
 function App() {
   return (
@@ -39,6 +42,9 @@ function App() {
         <Route path="/postcomments" element={<PostComments />} />
         <Route path="/activitycalendar" element={<ActivityCalendarView />} />
         <Route path="/activitycompletion" element={<ActivityCompleteView />} />
+        <Route path="/community" element={<CommunityPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/weather" element={<WeatherPage />} />
 
 
       </Routes>

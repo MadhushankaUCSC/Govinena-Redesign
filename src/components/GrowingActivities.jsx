@@ -36,7 +36,6 @@ export default function GrowingActivities() {
                 <Grid >
                     <h1 style={headingStyle}>Growing Activities</h1>
                     <h4>Completed : 10%</h4>
-                    <h5>Total Expenditure : Rs 10000.00</h5>
                     <Paper elevation={10} style={paperStyle}>
 
 
