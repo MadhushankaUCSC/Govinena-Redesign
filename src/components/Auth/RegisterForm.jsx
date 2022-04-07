@@ -1,10 +1,18 @@
-import React from "react";
+import React ,{useState} from "react";
 import { Avatar, Button, Grid, Link, Paper, TextField, Typography } from "@material-ui/core";
 import background from "../../assets/signup_background.jpg";
-import {ThemeProvider,createTheme} from '@material-ui/core/styles';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import { Axios } from "axios";
+import { useNavigate } from "react-router-dom";
+
 export default function LoginForm() {
-  const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.6)',borderRadius: '10px' }
+  let navigate = useNavigate();
+  const [firstNameReg, setFirstNameReg] = useState("");
+  const [lastNameReg, setLastNameReg] = useState("");
+  const [mobileReg, setMobileReg] = useState("");
+
+  const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: '10px' }
   const avatarStyle = { backgroundColor: 'green' }
   const buttonStyle = { backgroundColor: 'green', color: 'white', marginTop: '60px', marginBottom: '30px' }
   const inputStyle = { width: '80%', marginTop: '10px', paddingBottom: '5px' }
@@ -26,15 +34,33 @@ export default function LoginForm() {
     },
   });
 
+  const register = (e) => {
+    e.preventDefault();
+    Axios.post(`${process.env.Govinena_Base_Url}/register`, {
+      firstName: firstNameReg,
+      lastName: lastNameReg,
+      mobileNo: mobileReg
+    }).then((response) => {
+      if (response.data.status == 201) {
+        navigate('/login');
+      } else {
+        console.log(response.data.status);
+      }
+    }).catch((error) => {
+      console.log("This is response" + error);
 
- 
+    });
+
+  }
+
+
   return (
     <div style={backgroundStyle}>
       <Grid >
         <Paper elevation={10} style={paperStyle}>
           <Grid align='center'>
 
-            <h2>Register <Avatar style={avatarStyle}><AssignmentIndIcon  /></Avatar></h2>
+            <h2>Register <Avatar style={avatarStyle}><AssignmentIndIcon /></Avatar></h2>
           </Grid>
           <Grid>
 
@@ -45,26 +71,29 @@ export default function LoginForm() {
                 label='First Name'
                 id="mui-theme-provider-standard-input"
                 fullWidth required
+                onChange={(e) => { setFirstNameReg(e.target.value); }}
               />
               <TextField
                 style={inputStyle}
                 label='Last Name'
                 id="mui-theme-provider-standard-input"
                 fullWidth required
+                onChange={(e) => { setLastNameReg(e.target.value); }}
               />
               <TextField
                 style={inputStyle}
                 label='Mobile Number'
                 id="mui-theme-provider-standard-input"
                 fullWidth required
+                onChange={(e) => { setMobileReg(e.target.value); }}
               />
             </ThemeProvider>
-           
 
-            <Button variant="contained" style={buttonStyle} fullWidth>
+
+            <Button variant="contained" style={buttonStyle} fullWidth onClick={(e) => { register(e) }}>
               REGISTER
             </Button>
-           
+
             <Typography>
               Do you have an account ?
               <Link href="/login" variant="body2">

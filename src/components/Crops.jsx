@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -11,9 +11,36 @@ import background from "../assets/welcome_background.jpg";
 import cropImage from "../assets/crop_image.png"
 import { useNavigate } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-
+import axios, * as others from 'axios';
 export default function Crops() {
- const navigate = useNavigate();
+  const items = [
+    {
+      id: 1,
+      crop: "Banana",
+      image: cropImage,
+    },
+    {
+      id: 2,
+      crop: "Mango",
+      image: cropImage,
+    },
+    {
+      id: 3,
+      crop: "Papaw",
+      image: cropImage,
+    },
+    {
+      id: 4,
+      crop: "Beans",
+      image: cropImage,
+    },
+    {
+      id: 5,
+      crop: "Tomato",
+      image: cropImage,
+    },
+  ];
+  const navigate = useNavigate();
   const backgroundStyle = {
     backgroundImage: `url(${background})`,
     height: '100vh',
@@ -25,13 +52,30 @@ export default function Crops() {
 
   }
   const headingStyle = { paddingTop: '10px', fontSize: '28px' }
-  const paperStyle = { padding: 10, height: '70vh', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: '10px' }
+  const paperStyle = { padding: 10, height: 'auto', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: '10px' }
   const buttonStyle = { width: '300px' }
   const buttonTextStyle = { textAlign: 'left', fontWeight: 'bolder' }
-  
+
   function selectCrop(url) {
     navigate(url);
   }
+  const allCrops = () => {
+    // Axios.get(`${process.env.Govinena_Base_Url}/crops`,{
+    //   headers: {
+    //     authorization: `Token 12345`,
+    //   },
+    // }).then((response)=>{
+
+    // }).catch((error)=>{
+
+    // });
+  }
+
+
+  useEffect(() => {
+    allCrops();
+  }, []);
+
   return (
     <div>
       <div style={backgroundStyle}>
@@ -40,70 +84,21 @@ export default function Crops() {
 
             <h1 style={headingStyle}>Crops</h1>
             <List >
-              <ListItem alignItems="flex-start"  >
-                <Button onClick={() => { selectCrop('/varieties') }} style={buttonStyle}>
-                  <ListItemAvatar>
-                    <Avatar src={cropImage} alt="Sharp" />
-                  </ListItemAvatar>
-                  <ListItemText style={buttonTextStyle}
-                    primary={<Typography style={{ color: "green", fontSize: '14px',fontWeight: 'bold'}}>Banana</Typography>}
-
-                  />
-                  <ArrowForwardIosIcon style={{fontSize:"small"}}/>
-                </Button>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start"  >
-                <Button onClick={() => { selectCrop('Mango') }} style={buttonStyle}>
-                  <ListItemAvatar>
-                    <Avatar src={cropImage} alt="Sharp" />
-                  </ListItemAvatar>
-                  <ListItemText style={buttonTextStyle}
-                    primary={<Typography style={{ color: "green", fontSize: '14px',fontWeight: 'bold'}}>Mango</Typography>}
-
-                  />
-                  <ArrowForwardIosIcon style={{fontSize:"small"}}/>
-                </Button>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start"  >
-                <Button onClick={() => { selectCrop('Papaw') }} style={buttonStyle}>
-                  <ListItemAvatar>
-                    <Avatar src={cropImage} alt="Sharp" />
-                  </ListItemAvatar>
-                  <ListItemText style={buttonTextStyle}
-                    primary={<Typography style={{ color: "green", fontSize: '14px',fontWeight: 'bold'}}>Papaw</Typography>}
-
-                  />
-                  <ArrowForwardIosIcon style={{fontSize:"small"}}/>
-                </Button>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start"  >
-                <Button onClick={() => { selectCrop('Beans') }} style={buttonStyle}>
-                  <ListItemAvatar>
-                    <Avatar src={cropImage} alt="Sharp" />
-                  </ListItemAvatar>
-                  <ListItemText style={buttonTextStyle}
-                    primary={<Typography style={{ color: "green", fontSize: '14px',fontWeight: 'bold'}}>Beans</Typography>}
-
-                  />
-                  <ArrowForwardIosIcon style={{fontSize:"small"}}/>
-                </Button>
-              </ListItem>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start"  >
-                <Button onClick={() => { selectCrop('Tomato') }} style={buttonStyle}>
-                  <ListItemAvatar>
-                    <Avatar src={cropImage} alt="Sharp" />
-                  </ListItemAvatar>
-                  <ListItemText style={buttonTextStyle}
-                    primary={<Typography style={{ color: "green", fontSize: '14px',fontWeight: 'bold'}}>Tomato</Typography>}
-
-                  />
-                  <ArrowForwardIosIcon style={{fontSize:"small"}}/>
-                </Button>
-              </ListItem>
+              {items.map((list) => (
+                <div key={list.id}>
+                  <ListItem alignItems="flex-start">
+                    <Button onClick={() => { selectCrop(`/varieties?cropId=${list.id}&cropName=${list.crop}`) }} style={buttonStyle}>
+                      <ListItemAvatar>
+                        <Avatar src={cropImage} alt="Sharp" />
+                      </ListItemAvatar>
+                      <ListItemText style={buttonTextStyle}
+                        primary={<Typography style={{ color: "green", fontSize: '14px', fontWeight: 'bold' }}>{list.crop}</Typography>} />
+                      <ArrowForwardIosIcon style={{ fontSize: "small" }} />
+                    </Button>
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </div>
+              ))}
             </List>
           </Paper>
         </Grid>
