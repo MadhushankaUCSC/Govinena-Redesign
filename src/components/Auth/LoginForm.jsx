@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 export default function LoginForm() {
   let navigate = useNavigate();
   const [mobileNo, setMobileNo] = useState("");
-  const [buttonDisable, setButtonDisable] = useState("true");
+  const [buttonDisable, setButtonDisable] = useState(true);
   const [validationError, setValidationError] = useState("");
   const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: '10px' }
   const avatarStyle = { backgroundColor: 'green' }
@@ -37,10 +37,12 @@ export default function LoginForm() {
 
   const login = (e) => {
     e.preventDefault();
-    Axios.post(`${process.env.Govinena_Base_Url}/signIn`, {
+    Axios.post(`${process.env.REACT_APP_BASE_URL}/signIn`, {
       mobileNo: mobileNo,
     }).then((response) => {
       if (response.data.status == 201) {
+        // document.cookie = `userId=${response.data.userId}`;
+        // document.cookie = `token=${response.data.token}`;
         navigate('/mainmenu');
       } else {
         navigate('/login');

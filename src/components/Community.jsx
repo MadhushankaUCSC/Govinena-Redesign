@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import background from "../assets/main_menu_background.jpg";
@@ -16,6 +16,7 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 
 import { useNavigate } from "react-router-dom";
+import Axios from 'axios';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +48,7 @@ const items = [
         userImage: userImage1,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         userName: "Ishan Karunarathne",
+        tag:"pest",
     },
     {
         id: 2,
@@ -54,6 +56,7 @@ const items = [
         userImage: userImage2,
         description: " Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         userName: "Malsha Nayomi",
+        tag:"Diseases",
     },
     {
         id: 3,
@@ -61,6 +64,7 @@ const items = [
         userImage: userImage1,
         description: " Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         userName: "Kasun Karunarathne",
+        tag:"Irrigation",
     },
 
 ];
@@ -73,30 +77,42 @@ export default function Community() {
     function navigation(url) {
         navigate(url);
     }
-    const backgroundStyle = {
-        backgroundImage: `url(${background})`,
-        height: 'auto',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        marginTop: '-30px',
-        paddingTop: '50px',
-        paddingBottom: '50px'
-
-    }
-    const headingStyle = {
-        fontSize: '28px', marginTop: '-40px', paddingTop: '100px', paddingBottom: '100px', backgroundImage: `url(${background})`, backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-    }
+    const backgroundStyle = { backgroundImage: `url(${background})`, height: 'auto', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', marginTop: '-30px', paddingTop: '50px', paddingBottom: '50px' }
+    const headingStyle = { fontSize: '28px', marginTop: '-40px', paddingTop: '100px', paddingBottom: '100px', backgroundImage: `url(${background})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', }
     const buttonStyle = { backgroundColor: 'green', color: 'white', marginTop: '-125px', marginBottom: '15px', fontSize: '12px', height: '25px', marginLeft: '70px' }
 
-    const [tag, setTag] = React.useState('');
+    const [tag, setTag] = React.useState(0);
 
-    const handleChange = (event) => {
-        setTag(event.target.value);
+   
+        // console.log(tag);
+        var token = document.cookie
+        .split(";")
+        .map((cookie) => cookie.split("="))
+        .reduce(
+          (accumulator, [key, value]) => ({
+            ...accumulator,
+            [key.trim()]: decodeURIComponent(value),
+          }),
+          {}
+        ).token;
+
+    const getAllPosts = () => {
+        Axios.get(`${process.env.REACT_APP_BASE_URL}/community`, {
+            header: {
+                authorization: `Token ${token}`
+            },
+        }).then((response) => {
+//need to get data from the backend
+        }).catch((error) => {
+            console.log("This is the error", error);
+        });
     };
 
+    // useEffect(() => {
+    //     getAllPosts()
+    // }, []);
+
+    
     return (
 
         <div style={backgroundStyle}>
@@ -107,8 +123,9 @@ export default function Community() {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={tag}
-                        onChange={handleChange}
+                        defaultValue={0}
+                    
+                        onChange={(e)=>{setTag(e.target.value)}}
 
                     ><MenuItem selected value={0}>All</MenuItem>
                         <MenuItem value={10}>pest</MenuItem>
@@ -124,7 +141,7 @@ export default function Community() {
                     <Card className={classes.root} key={list.id}>
                         <SinglePostCard userImage={list.userImage} image={list.cropImage} description={list.description} userName={list.userName} style={{ marginBottom: '50px' }} />
                     </Card>
-
+                    
                 ))}
             </Grid>
         </div>

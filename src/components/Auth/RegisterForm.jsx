@@ -36,7 +36,7 @@ export default function LoginForm() {
 
   const register = (e) => {
     e.preventDefault();
-    Axios.post(`${process.env.Govinena_Base_Url}/register`, {
+    Axios.post(`${process.env.REACT_APP_BASE_URL}/register`, {
       firstName: firstNameReg,
       lastName: lastNameReg,
       mobileNo: mobileReg

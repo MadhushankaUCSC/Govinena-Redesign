@@ -12,7 +12,7 @@ import cropImage from "../assets/crop_image.png"
 import { useNavigate } from "react-router-dom";
 import '../App.css';
 import Typography from "@material-ui/core/Typography";
-import Axios, * as others from 'axios';
+import Axios from 'axios';
 
 export default function Varieties() {
   const navigate = useNavigate();
@@ -57,26 +57,35 @@ export default function Varieties() {
   const paperStyle = { padding: 10, height: 'auto', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: '10px' }
   const buttonStyle = { width: '300px' }
   const buttonTextStyle = { textAlign: 'left', fontWeight: 'bolder' }
+  // var token = document.cookie
+  // .split(";")
+  // .map((cookie) => cookie.split("="))
+  // .reduce(
+  //   (accumulator, [key, value]) => ({
+  //     ...accumulator,
+  //     [key.trim()]: decodeURIComponent(value),
+  //   }),
+  //   {}
+  // ).token;
+// const getAllVarieties=async (cropId)=>{
+// await  Axios.get(`${process.env.REACT_APP_BASE_URL}/variety/${cropId}`,{
+//     headers: {
+//           authorization: `Token ${token}`,
+//         },
+//   }).then((response)=>{
 
-const getAllVarieties=async (cropId)=>{
-await  Axios.get(`${process.env.Govinena_Base_Url}/variety/${cropId}`,{
-    headers: {
-          authorization: `Token 12345`,
-        },
-  }).then((response)=>{
+// //need to store the data get from the back end
 
+//   }).catch((error)=>{
+//     console.log("This is the error",error);
+//   });
+// };
 
+//  useEffect(()=>{
+//   getAllVarieties(ParamsCropId)
+//  },[]);
 
-  }).catch((error)=>{
-    console.log("This is the error",error);
-  });
-};
-
- useEffect(()=>{
-  getAllVarieties(ParamsCropId)
- },[]);
-
-  function selectCrop(url) {
+  function selectVariety(url) {
     navigate(url);
 
   }
@@ -93,7 +102,7 @@ await  Axios.get(`${process.env.Govinena_Base_Url}/variety/${cropId}`,{
               {items.map((list) => (
                 <div key={list.id}>
                   <ListItem alignItems="flex-start">
-                    <Button onClick={() => { selectCrop('/varietysummery'); }} style={buttonStyle}>
+                    <Button onClick={() => { selectVariety(`/varietysummery?cropId=${ParamsCropId}&varietyId=${list.id}`); }} style={buttonStyle}>
                       <ListItemAvatar>
                         <Avatar src={cropImage} alt="Sharp" />
                       </ListItemAvatar>

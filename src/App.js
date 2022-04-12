@@ -21,6 +21,7 @@ import ActivityCompleteView from "./views/ActivityCompleteView";
 import CommunityPage from "./views/CommunityPage";
 import ProfilePage from "./views/ProfilePage";
 import WeatherPage from "./views/WeatherPage";
+import AddComments from "./views/AddComments";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/helpfullinfo" element={<HelpfulInfoPage />} />
         <Route path="/createpost" element={<CreatePostView />} />
         <Route path="/postcomments" element={<PostComments />} />
+        <Route path="/addnewcomment" element={<AddComments />} />
         <Route path="/activitycalendar" element={<ActivityCalendarView />} />
         <Route path="/activitycompletion" element={<ActivityCompleteView />} />
         <Route path="/community" element={<CommunityPage />} />

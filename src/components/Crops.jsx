@@ -11,7 +11,7 @@ import background from "../assets/welcome_background.jpg";
 import cropImage from "../assets/crop_image.png"
 import { useNavigate } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-import axios, * as others from 'axios';
+// import Axios from 'axios';
 export default function Crops() {
   const items = [
     {
@@ -59,10 +59,21 @@ export default function Crops() {
   function selectCrop(url) {
     navigate(url);
   }
+
+  var token = document.cookie
+    .split(";")
+    .map((cookie) => cookie.split("="))
+    .reduce(
+      (accumulator, [key, value]) => ({
+        ...accumulator,
+        [key.trim()]: decodeURIComponent(value),
+      }),
+      {}
+    ).token;
   const allCrops = () => {
-    // Axios.get(`${process.env.Govinena_Base_Url}/crops`,{
+    // Axios.get(`${process.env.REACT_APP_BASE_URL}/crops`,{
     //   headers: {
-    //     authorization: `Token 12345`,
+    //     authorization: `Token ${token}`,
     //   },
     // }).then((response)=>{
 

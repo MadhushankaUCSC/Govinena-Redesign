@@ -7,14 +7,15 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from "@material-ui/core/TextField";
 
-export default function Popup() {
+export default function Popup(props) {
 
     const [open, setOpen] = React.useState(false);
     const buttonStyle = { backgroundColor: 'green', color: 'white', marginTop: '20px', marginBottom: '10px', fontSize: '12px' }
-    const today = new Date();
-    const date = today.setDate(today.getDate());
-    const defaultValue = new Date(date).toISOString().split('T')[0]
-
+    // const today = new Date();
+    // const date = today.setDate(today.getDate());
+    // const defaultValue = new Date(date).toISOString().split('T')[0]
+ 
+  
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -40,7 +41,8 @@ export default function Popup() {
                     </DialogContentText>
                     <TextField style={{ margin: '5px' }}
                         type="date"
-                        defaultValue={defaultValue}
+                        // defaultValue={defaultValue}
+                        onChange={(e)=>{props.setStartDate(e.target.value)}}
                     />
                 </DialogContent>
                 <DialogActions>
