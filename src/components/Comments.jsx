@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Paper, Button } from "@material-ui/core";
 import background from "../assets/welcome_background.jpg";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,12 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'; import { useState } from "react";
+import { Axios } from 'axios';
 export default function Comments() {
+
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get("postId");
+
     const backgroundStyle = {
         backgroundImage: `url(${background})`,
         height: '100vh',
@@ -25,10 +30,10 @@ export default function Comments() {
         paddingTop: '50px'
 
     }
-    const headingStyle = { paddingTop: '10px', fontSize: '28px', marginBottom: '-12px' }
+    const headingStyle = { paddingTop: '0px', fontSize: '28px', marginBottom: '0px' }
     const paperStyle = { padding: 10, height: '70vh', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: '10px' }
     const buttonStyle = { width: 'auto', height: 'auto', marginTop: '-6px', borderRadius: '25px' }
-    const menuPaperStyle = { padding: '1px', width: 'auto', margin: "10px auto", backgroundColor: 'rgba(0, 0, 0, 0.7)', borderRadius: '25px', height: 'auto', paddingBottom: '0px' }
+    const menuPaperStyle = { padding: '4px', width: 'auto', minWidth: '200px', margin: "10px auto", backgroundColor: 'rgba(0, 0, 0, 0.7)', borderRadius: '25px', height: 'auto', paddingBottom: '0px', minHeight: '25px' }
 
     const [upVote, setUpVote] = useState(0);
     const [downVote, setDownVote] = useState(0);
@@ -36,7 +41,7 @@ export default function Comments() {
 
     const navigate = useNavigate();
 
-    function selectCrop(url) {
+    function navigation(url) {
         navigate(url);
 
     }
@@ -48,19 +53,45 @@ export default function Comments() {
         }
 
     }
+    var token = document.cookie
+        .split(";")
+        .map((cookie) => cookie.split("="))
+        .reduce(
+            (accumulator, [key, value]) => ({
+                ...accumulator,
+                [key.trim()]: decodeURIComponent(value),
+            }),
+            {}
+        ).token;
+
+    const getComments = () => {
+        Axios.get(`${process.env.REACT_APP_BASE_URL}/getcomments/${postId}`, {
+            header: {
+                authorization: `Token ${token}`
+            }
+        }).then((response) => {
+//need to get data
+        }).catch((error) => {
+            console.log("This is the error", error);
+        });
+    };
+
+    useEffect(() => {
+        getComments()
+    }, []);
 
     return (
         <div>
             <div style={backgroundStyle}>
                 <Grid style={{ backgroundColor: 'rgba(0,0,0,.4)', marginTop: '-30px', paddingTop: '50px', paddingBottom: '20px', marginBottom: '-50px' }}>
-                    <h1 style={headingStyle}> Comments</h1>
-                    <Paper elevation={10} style={paperStyle}>
 
+                    <Paper elevation={10} style={paperStyle}>
+                        <h1 style={headingStyle}> Comments</h1>
                         <List>
                             <ListItemAvatar>
                                 <Avatar src={userImage1} alt="Sharp" />
                             </ListItemAvatar>
-                            <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}>
+                            <Button onClick={() => { navigation('/community') }} style={buttonStyle}>
                                 <p style={{ maxWidth: '200px', width: '180px', height: 'auto', color: "rgba(0,0,0,0.8)", fontSize: '10px', marginLeft: '20px', marginBottom: 'auto', marginTop: '-45px', textAlign: 'left', marginRight: '10px' }}>
                                     Ishan karunarathne's post
                                 </p>
@@ -71,13 +102,13 @@ export default function Comments() {
                                         <Avatar src={userImage1} alt="Sharp" />
                                     </ListItemAvatar>
                                     <Paper style={menuPaperStyle}>
-                                        <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}>
+                                        {/* <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}> */}
 
-                                            <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
-                                                Lorem Ipsum is simply dummy text .
-                                            </p>
+                                        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
+                                            Lorem Ipsum is simply t jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj .
+                                        </p>
 
-                                        </Button>
+                                        {/* </Button> */}
                                     </Paper>
 
                                 </ListItem>
@@ -97,13 +128,13 @@ export default function Comments() {
                                         <Avatar src={userImage2} alt="Sharp" />
                                     </ListItemAvatar>
                                     <Paper style={menuPaperStyle}>
-                                        <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}>
+                                        {/* <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}> */}
 
-                                            <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
-                                                Lorem Ipsum is simply dummy text .
-                                            </p>
+                                        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
+                                            Lorem Ipsum is simply dummy text .
+                                        </p>
 
-                                        </Button>
+                                        {/* </Button> */}
                                     </Paper>
 
                                 </ListItem>
@@ -122,13 +153,13 @@ export default function Comments() {
                                         <Avatar src={userImage1} alt="Sharp" />
                                     </ListItemAvatar>
                                     <Paper style={menuPaperStyle}>
-                                        <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}>
+                                        {/* <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}> */}
 
-                                            <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
-                                                Lorem Ipsum is simply dummy text .
-                                            </p>
+                                        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
+                                            Lorem Ipsum is simply dummy text .
+                                        </p>
 
-                                        </Button>
+                                        {/* </Button> */}
                                     </Paper>
 
                                 </ListItem>
@@ -147,13 +178,13 @@ export default function Comments() {
                                         <Avatar src={userImage2} alt="Sharp" />
                                     </ListItemAvatar>
                                     <Paper style={menuPaperStyle}>
-                                        <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}>
+                                        {/* <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}> */}
 
-                                            <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
-                                                Lorem Ipsum is simply dummy text .
-                                            </p>
+                                        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
+                                            Lorem Ipsum is simply dummy text .
+                                        </p>
 
-                                        </Button>
+                                        {/* </Button> */}
                                     </Paper>
 
                                 </ListItem>
@@ -167,7 +198,7 @@ export default function Comments() {
                                 <Button color="primary" style={{ fontSize: '10px', color: 'green', float: 'right', margin: '-15px auto' }}>Reply</Button>
                             </div>
                         </List>
-                        <IconButton aria-label="delete" size="small" style={{ color: 'green', float: 'right', fontSize: '35px', marginTop: '70px', marginLeft: '200px' }}>
+                        <IconButton aria-label="delete" onClick={() => { navigation(`/addnewcomment/${postId}`) }} size="small" style={{ color: 'green', float: 'right', fontSize: '35px', marginTop: '70px', marginLeft: '200px' }}>
                             <AddCircleOutlineIcon fontSize="inherit" />
                         </IconButton>
                     </Paper>

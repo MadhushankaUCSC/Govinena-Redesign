@@ -139,7 +139,7 @@ export default function Community() {
                 </Button>
                 {items.map((list) => (
                     <Card className={classes.root} key={list.id}>
-                        <SinglePostCard userImage={list.userImage} image={list.cropImage} description={list.description} userName={list.userName} style={{ marginBottom: '50px' }} />
+                        <SinglePostCard userImage={list.userImage} postId={list.id} image={list.cropImage} description={list.description} userName={list.userName} style={{ marginBottom: '50px' }} />
                     </Card>
                     
                 ))}

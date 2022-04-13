@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, Paper, TextField, Typography } from "@material-ui/core";
 import background from "../assets/welcome_background.jpg";
 import { useNavigate } from "react-router-dom";
 import '../App.css';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
 const useStyles = makeStyles((theme) => ({
@@ -20,13 +23,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AddNewComments() {
+export default function EditPost() {
     const classes = useStyles();
     const navigate = useNavigate();
 
     const backgroundStyle = { backgroundImage: `url(${background})`, height: '100vh', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', marginTop: '-30px', paddingTop: '50px' }
     const headingStyle = { paddingTop: '10px', fontSize: '25px', marginBottom: '-12px' }
-    const paperStyle = { padding: '10px', height: '70vh', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: '10px' }
+    const paperStyle = { padding: 10, height: '70vh', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: '10px' }
     const buttonStyle = { backgroundColor: 'green', color: 'white', marginTop: '10px', marginBottom: '10px', fontSize: '12px', height: '25px' }
     const inputStyle = { width: '80%', marginTop: '70px', paddingBottom: '15px', color: 'green' }
 
@@ -46,28 +49,44 @@ export default function AddNewComments() {
             {}
         ).token;
 
-    const params = new URLSearchParams(window.location.search);
-    const postId = params.get("postId");
-
     const [description, setDescription] = useState("");
+    const [tag, setTag] = useState("");
     const [attachment, setAttachment] = useState("");
     const [descriptionErrorMsg, setDescriptionErrorMsg] = useState("");
-    const [responseErrorMsg, setResponseErrorMsg] = useState("");
+    const [tagErrorMsg, setTagErrorMsg] = useState("");
 
-
-    const descriptionOfComment = (description) => {
+    const descriptionOfPost = (description) => {
         setDescription(description);
         setDescriptionErrorMsg("");
     }
 
+    const tagOfPost = (tag) => {
+        setTag(tag);
+        setTagErrorMsg("");
+    }
 
-    const createNewComment = (e) => {
+    const getData = () => {
+        Axios.get(`${process.env.REACT_APP_BASE_URL}/geteditpost`, {
+            header: {
+                authorization: `Token ${token}`
+            }
+        }).then((response) => {
+            //get data
+        }).catch((error) => {
+            console.log("This is the error", error);
+        });
+    }
+
+    const editPost = (e) => {
         e.preventDefault();
         if (description == "") {
             setDescriptionErrorMsg("Please Enter description")
+        } else if (tag == '') {
+            setTagErrorMsg("Please Enter tag")
         } else {
-            Axios.post(`${process.env.REACT_APP_BASE_URL}/createnewcomment/${postId}`, {
-                comment: description,
+            Axios.post(`${process.env.REACT_APP_BASE_URL}/editpost`, {
+                description: description,
+                tag: tag,
                 attachment: attachment,
                 userId: userId,
             }, {
@@ -75,14 +94,6 @@ export default function AddNewComments() {
                     authorization: `Token ${token}`
                 },
             }).then((response) => {
-                //need to get response from the backend
-                if (response.status == 200) {
-                    navigate('/comments')
-                } else {
-
-                    navigate('/addnewcomment');
-                    setResponseErrorMsg("Something went wrong")
-                }
 
             }).catch((error) => {
                 console.log("This is the error", error);
@@ -90,6 +101,10 @@ export default function AddNewComments() {
         }
 
     };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     function navigation(url) {
         navigate(url);
@@ -100,18 +115,16 @@ export default function AddNewComments() {
                 <Grid style={{ backgroundColor: 'rgba(0,0,0,.4)', marginTop: '-30px', paddingTop: '50px', paddingBottom: '80px', marginBottom: '-50px' }}>
                     <Paper elevation={10} style={paperStyle}>
 
-                        <h3 style={headingStyle}>New Comment</h3>
-                        <Typography style={{ color: 'red', fontSize: '12px' }}>
-                            {responseErrorMsg}
-                        </Typography>
+                        <h3 style={headingStyle}>Edit Post</h3>
+
                         <div>
                             <TextField
                                 style={inputStyle}
-                                label='Comment'
+                                label='Description'
                                 multiline
                                 maxRows={4}
                                 id="mui-theme-provider-standard-input"
-                                onChange={(e) => { descriptionOfComment(e.target.value) }}
+                                onChange={(e) => { descriptionOfPost(e.target.value) }}
                                 fullWidth required
                             />
 
@@ -133,14 +146,30 @@ export default function AddNewComments() {
                                     </Button>
                                 </label>
                             </FormControl>
-
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">Tag *</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    defaultValue={''}
+                                    onChange={(e) => { tagOfPost(e.target.value) }}
+                                    fullWidth required
+                                >
+                                    <MenuItem value={10}>pest</MenuItem>
+                                    <MenuItem value={20}>Diseases</MenuItem>
+                                    <MenuItem value={30}>Irrigation</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <Typography style={{ color: 'red', fontSize: '10px' }}>
+                                {tagErrorMsg}
+                            </Typography>
                         </div>
                         <div style={{ marginTop: '150px' }}>
                             <Button onClick={() => { navigation('/community') }}>
                                 Cancel
                             </Button>
-                            <Button style={buttonStyle} onClick={(e) => { createNewComment(e) }}>
-                                publish
+                            <Button style={buttonStyle} onClick={(e) => { editPost(e) }}>
+                                update
                             </Button>
                         </div>
                     </Paper>

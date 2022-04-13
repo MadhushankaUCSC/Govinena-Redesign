@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SinglePostCard({ image, description, userName, userImage }) {
+export default function SinglePostCard({ image, description, userName, userImage, postId }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -88,7 +88,7 @@ export default function SinglePostCard({ image, description, userName, userImage
         <IconButton aria-label="add to favorites">
           <ThumbUpAltOutlinedIcon />
         </IconButton>
-        <IconButton aria-label="share" onClick={() => { navigation('/postcomments') }}>
+        <IconButton aria-label="share" onClick={() => { navigation(`/postcomments?postID=${postId}`) }}>
           <ChatBubbleIcon />
         </IconButton>
         <IconButton
