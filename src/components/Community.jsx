@@ -43,27 +43,30 @@ const useStyles = makeStyles((theme) => ({
 
 const items = [
     {
-        id: 1,
+        postId: 'P1',
         cropImage: compostImage,
         userImage: userImage1,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         userName: "Ishan Karunarathne",
+        userID:1,
         tag:"pest",
     },
     {
-        id: 2,
+        postId: 'P2',
         cropImage: wateringImage,
         userImage: userImage2,
         description: " Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         userName: "Malsha Nayomi",
+        userID:2,
         tag:"Diseases",
     },
     {
-        id: 3,
+        postId: 'P3',
         cropImage: pestImage,
         userImage: userImage1,
         description: " Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
         userName: "Kasun Karunarathne",
+        userID:3,
         tag:"Irrigation",
     },
 
@@ -138,8 +141,8 @@ export default function Community() {
                     Add New Post
                 </Button>
                 {items.map((list) => (
-                    <Card className={classes.root} key={list.id}>
-                        <SinglePostCard userImage={list.userImage} postId={list.id} image={list.cropImage} description={list.description} userName={list.userName} style={{ marginBottom: '50px' }} />
+                    <Card className={classes.root} key={list.postId}>
+                        <SinglePostCard userID={list.userID} userImage={list.userImage} postId={list.postId} image={list.cropImage} description={list.description} userName={list.userName} style={{ marginBottom: '50px' }} />
                     </Card>
                     
                 ))}

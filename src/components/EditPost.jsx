@@ -32,7 +32,10 @@ export default function EditPost() {
     const paperStyle = { padding: 10, height: '70vh', width: 280, margin: "60px auto", backgroundColor: 'rgba(255, 255, 255, 0.75)', borderRadius: '10px' }
     const buttonStyle = { backgroundColor: 'green', color: 'white', marginTop: '10px', marginBottom: '10px', fontSize: '12px', height: '25px' }
     const inputStyle = { width: '80%', marginTop: '70px', paddingBottom: '15px', color: 'green' }
-
+    
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get("postId");
+    
     var userId = document.cookie
         .split(';')
         .map(cookie => cookie.split('='))
@@ -66,7 +69,7 @@ export default function EditPost() {
     }
 
     const getData = () => {
-        Axios.get(`${process.env.REACT_APP_BASE_URL}/geteditpost`, {
+        Axios.get(`${process.env.REACT_APP_BASE_URL}/geteditpost/${postId}`, {
             header: {
                 authorization: `Token ${token}`
             }

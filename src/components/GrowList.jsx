@@ -9,7 +9,6 @@ import background from "../assets/main_menu_background.jpg";
 import cropImage from "../assets/crop_image.png"
 import { useNavigate } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
-
 import DeleteConfirmation from './DeleteConfirmation';
 export default function GrowList() {
 
@@ -57,11 +56,13 @@ export default function GrowList() {
         paddingTop: '50px'
 
     }
+    
 
     const headingStyle = { paddingTop: '10px', fontSize: '28px' }
     const menuPaperStyle = { padding: 5, height: '6.5vh', width: 260, margin: "2px auto", backgroundColor: 'rgba(0, 0, 0, 0.6)', borderRadius: '15px' }
     const buttonStyle = { width: 230, height: '2.3hv', marginTop: '-7px', borderRadius: '15px' }
     const buttonTextStyle = { textAlign: 'left', fontWeight: 'bolder', color: 'rgba(255, 255, 255, 0.75)', fontSize: '18px' }
+    const [deleteConfirm, setDeleteConfirm] = React.useState(false);
 
     function selectCrop(url) {
         navigate(url);
@@ -87,7 +88,8 @@ export default function GrowList() {
                                             secondary={<Typography style={{ color: "lightgreen", fontSize: '11px' }}>{list.crop}</Typography>}
                                         />
                                     </Button>
-                                    <DeleteConfirmation />
+
+                                    <DeleteConfirmation isOpen={true} setDeleteConfirm={setDeleteConfirm}/>
                                 </Paper>
                             </ListItem>
 

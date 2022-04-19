@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -18,6 +16,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import { useNavigate } from "react-router-dom";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import DeleteConfirmation from '../components/DeleteConfirmation'
+const options = ['Edit', 'Delete'];
+const ITEM_HEIGHT = 48;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -42,9 +46,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SinglePostCard({ image, description, userName, userImage, postId }) {
+export default function SinglePostCard({ image, description, userName, userImage, postId, userID }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [confirm, setConfirm] = React.useState(false);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [deleteConfirm, setDeleteConfirm] = React.useState(false);
+
+  const open = Boolean(anchorEl);
+
+  //  var loggedUserId = document.cookie
+  //   .split(';')
+  //   .map(cookie => cookie.split('='))
+  //   .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {}).userId;
+
+  var loggedUserId = 1;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -58,6 +75,34 @@ export default function SinglePostCard({ image, description, userName, userImage
     navigate(url);
 
   }
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+
+
+  const handleClose = (editKey) => {
+    
+    if (loggedUserId !== userID) {
+      if (editKey !== 'close') {
+        console.log("you can not make changes to this post !");
+      }
+
+    } else {
+
+      if (editKey === 'Edit') {
+        navigation(`/editpost/?postID=${postId}`);
+      } else if (editKey === 'Delete') {
+        console.log(deleteConfirm);
+        setConfirm(true);
+       
+      }
+
+    }
+    setAnchorEl(null);
+
+  };
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -67,13 +112,39 @@ export default function SinglePostCard({ image, description, userName, userImage
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <div>
+            <IconButton aria-label="settings" onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={() => { handleClose('close') }}
+              PaperProps={{
+                style: {
+                  maxHeight: ITEM_HEIGHT * 4.5,
+                  width: "10ch",
+                },
+              }}
+            >
+              {options.map((option) => (
+                <MenuItem
+                  key={option}
+                  onClick={() => { handleClose(option) }}
+
+                >
+                  {option}
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
         }
         title={userName}
         subheader="September 14, 2016"
       />
+      {confirm === true && <DeleteConfirmation isOpen={false} setDeleteConfirm={setDeleteConfirm}/>}
       <CardMedia
         className={classes.media}
         image={image}
