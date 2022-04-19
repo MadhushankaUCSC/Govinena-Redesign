@@ -73,7 +73,7 @@ export default function PostCreate() {
             Axios.post(`${process.env.REACT_APP_BASE_URL}/createpost`, {
                 description: description,
                 tag: tag,
-                attachment: attachment,
+                attachment: attachment.name,
                 userId: userId,
             }, {
                 header: {
@@ -119,7 +119,7 @@ export default function PostCreate() {
                                     className={classes.input}
                                     id="contained-button-file"
                                     multiple
-                                    onChange={(e) => { setAttachment(e.target.value) }}
+                                    onChange={(e) => { setAttachment(e.target.file[0]) }}
                                     type="file"
                                 />
                                 <label htmlFor="contained-button-file">

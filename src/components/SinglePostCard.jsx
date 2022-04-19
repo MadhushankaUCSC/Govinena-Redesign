@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import DeleteConfirmation from '../components/DeleteConfirmation'
+import WarningPopup from './WarningPopup';
 const options = ['Edit', 'Delete'];
 const ITEM_HEIGHT = 48;
 
@@ -52,7 +53,8 @@ export default function SinglePostCard({ image, description, userName, userImage
   const [confirm, setConfirm] = React.useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [deleteConfirm, setDeleteConfirm] = React.useState(false);
+  const [warningStatus, setWarningStatus] = React.useState(false);
+
 
   const open = Boolean(anchorEl);
 
@@ -73,7 +75,6 @@ export default function SinglePostCard({ image, description, userName, userImage
 
   function navigation(url) {
     navigate(url);
-
   }
 
   const handleClick = (event) => {
@@ -83,20 +84,21 @@ export default function SinglePostCard({ image, description, userName, userImage
 
 
   const handleClose = (editKey) => {
-    
+
     if (loggedUserId !== userID) {
       if (editKey !== 'close') {
         console.log("you can not make changes to this post !");
+        setWarningStatus(true);
       }
 
     } else {
 
       if (editKey === 'Edit') {
-        navigation(`/editpost/?postID=${postId}`);
+        navigation(`/editpost?postID=${postId}`);
       } else if (editKey === 'Delete') {
-        console.log(deleteConfirm);
+
         setConfirm(true);
-       
+
       }
 
     }
@@ -144,7 +146,8 @@ export default function SinglePostCard({ image, description, userName, userImage
         title={userName}
         subheader="September 14, 2016"
       />
-      {confirm === true && <DeleteConfirmation isOpen={false} setDeleteConfirm={setDeleteConfirm}/>}
+      {confirm === true && <DeleteConfirmation isOpen={false} setConfirm={setConfirm} position={'singlePost'} id={postId} />}
+      {warningStatus === true && <WarningPopup setWarningStatus={setWarningStatus} />}
       <CardMedia
         className={classes.media}
         image={image}

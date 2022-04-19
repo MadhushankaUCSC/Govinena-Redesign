@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -10,38 +10,48 @@ import cropImage from "../assets/crop_image.png"
 import { useNavigate } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import DeleteConfirmation from './DeleteConfirmation';
+import Axios from 'axios';
 export default function GrowList() {
 
     const navigate = useNavigate();
 
     const items = [
-        {
-            id: 1,
+        {   growListId:1,
+            cropId: 'c1',
             crop: "Banana",
+            varietyId: 'v1',
             variety: "Parakum",
             image: cropImage,
         },
         {
-            id: 2,
+            growListId:2,
+            cropId: 'c2',
             crop: "Banana",
+            varietyId: 'v2',
             variety: "Nadee",
             image: cropImage,
         },
         {
-            id: 3,
+            growListId:3,
+            cropId: 'c3',
             crop: "Banana",
+            varietyId: 'v3',
             variety: "Agra",
             image: cropImage,
         },
         {
-            id: 4,
+            growListId:4,
+            cropId: 'c4',
             crop: "Banana",
+            varietyId: 'v4',
             variety: "Rathambala",
             image: cropImage,
         },
         {
-            id: 5,
+            growListId:5,
+            cropId: 'c5',
             crop: "Banana",
+            varietyId: 'v5',
             variety: "Amban",
             image: cropImage,
         },
@@ -56,17 +66,49 @@ export default function GrowList() {
         paddingTop: '50px'
 
     }
-    
+
 
     const headingStyle = { paddingTop: '10px', fontSize: '28px' }
     const menuPaperStyle = { padding: 5, height: '6.5vh', width: 260, margin: "2px auto", backgroundColor: 'rgba(0, 0, 0, 0.6)', borderRadius: '15px' }
     const buttonStyle = { width: 230, height: '2.3hv', marginTop: '-7px', borderRadius: '15px' }
     const buttonTextStyle = { textAlign: 'left', fontWeight: 'bolder', color: 'rgba(255, 255, 255, 0.75)', fontSize: '18px' }
-    const [deleteConfirm, setDeleteConfirm] = React.useState(false);
+    const [confirm, setConfirm] = React.useState(false);
 
-    function selectCrop(url) {
+    function navigation(url) {
         navigate(url);
     }
+    var userId = document.cookie
+        .split(';')
+        .map(cookie => cookie.split('='))
+        .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {}).userId;
+
+    var token = document.cookie
+        .split(";")
+        .map((cookie) => cookie.split("="))
+        .reduce(
+            (accumulator, [key, value]) => ({
+                ...accumulator,
+                [key.trim()]: decodeURIComponent(value),
+            }),
+            {}
+        ).token;
+
+    const getGrowList = async () => {
+
+        await Axios.get(`${process.env.REACT_APP_BASE_URL}/growlist/${userId}`, {
+            header: {
+                authorization: `Token ${token}`
+            }
+        }).then((response) => {
+
+        }).catch((error) => {
+            console.log("This is the error", error);
+        });
+    }
+
+    // useEffect(() => {
+    //    getGrowList()
+    // }, []);
 
     return (
         <div>
@@ -77,9 +119,9 @@ export default function GrowList() {
                     <List >
 
                         {items.map((list) => (
-                            <ListItem alignItems="flex-start" key={list.id} >
+                            <ListItem alignItems="flex-start" key={list.growListId} >
                                 <Paper style={menuPaperStyle}>
-                                    <Button onClick={() => { selectCrop('/growingactivities') }} style={buttonStyle}>
+                                    <Button onClick={() => { navigation(`/growingactivities?cropId=${list.cropId}&varietyId=${list.varietyId}`) }} style={buttonStyle}>
                                         <ListItemAvatar>
                                             <Avatar src={list.image} alt="Sharp" />
                                         </ListItemAvatar>
@@ -89,7 +131,7 @@ export default function GrowList() {
                                         />
                                     </Button>
 
-                                    <DeleteConfirmation isOpen={true} setDeleteConfirm={setDeleteConfirm}/>
+                                    <DeleteConfirmation id={list.growListId} isOpen={true} setConfirm={setConfirm} position={'growList'} />
                                 </Paper>
                             </ListItem>
 

@@ -10,6 +10,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Typography from "@material-ui/core/Typography";
+import { Axios } from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -42,18 +43,50 @@ export default function CompleteActivity() {
     const buttonStyle = { backgroundColor: 'green', color: 'white', marginTop: '10px', marginBottom: '5px', fontSize: '12px', height: '25px' }
     const inputStyle = { width: '80%', marginTop: '60px', paddingBottom: '15px', color: 'green' }
 
-    const [value, setValue] = React.useState('');
+    const [activityStatus, setActivityStatus] = React.useState('');
+    const [description, setDescription] = React.useState('');
+    const [attachment, setAttachment] = React.useState('');
+    const [errorMsg, setErrorMsg] = React.useState('');
 
     const handleChange = (event) => {
-        setValue(event.target.value);
+        setActivityStatus(event.target.value);
     };
 
     // const navigate = useNavigate();
+    const params = new URLSearchParams(window.location.search);
+    const activityId = params.get("activityId");
 
-    // //   function selectCrop(url) {
-    // //     navigate(url);
+    var token = document.cookie
+        .split(";")
+        .map((cookie) => cookie.split("="))
+        .reduce(
+            (accumulator, [key, value]) => ({
+                ...accumulator,
+                [key.trim()]: decodeURIComponent(value),
+            }),
+            {}
+        ).token;
 
-    // //   }
+    const saveActivityStatus = (e) => {
+        e.preventDefault();
+        // console.log(attachment.name,value);
+        if (description == '' || activityStatus == '') {
+            setErrorMsg("Please Fill the  Required Field")
+        }
+        Axios.post(`${process.env.REACT_APP_BASE_URL}/activitystatus/${activityId}`, {
+            description: description,
+            attachment: attachment.name,
+            status: activityStatus,
+        }, {
+            header: {
+                authorization: `Token ${token}`
+            }
+        }).then((response) => {
+
+        }).catch((error) => {
+            console.log("This is the error", error);
+        })
+    }
 
     return (
         <div>
@@ -64,6 +97,9 @@ export default function CompleteActivity() {
                         <h3 style={headingStyle}>Activity Completion</h3>
 
                         <div>
+                            <Typography style={{ color: 'red', fontSize: '10px', marginTop: '30px', marginBottom: '-40px' }}>
+                                {errorMsg}
+                            </Typography>
                             <TextField
                                 style={inputStyle}
                                 label='Description'
@@ -71,9 +107,10 @@ export default function CompleteActivity() {
                                 maxRows={3}
                                 id="mui-theme-provider-standard-input"
                                 fullWidth required
+                                onChange={(e) => { setDescription(e.target.value) }}
                             />
                             <FormLabel component="legend" className={classes.formControl} style={{ marginLeft: '25px' }}>Status *</FormLabel>
-                            <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange} style={{ marginLeft: '35px' }}>
+                            <RadioGroup aria-label="gender" name="gender1" value={activityStatus} onChange={handleChange} style={{ marginLeft: '35px' }}>
                                 <FormControlLabel value="Complete" control={<Radio />} label={<Typography style={{ fontSize: '12px' }}>Complete</Typography>} />
                                 <FormControlLabel value="Dismiss" control={<Radio />} label={<Typography style={{ fontSize: '12px' }}>Dismiss</Typography>} />
 
@@ -86,6 +123,8 @@ export default function CompleteActivity() {
                                     id="contained-button-file"
                                     multiple
                                     type="file"
+                                    onChange={(e) => { setAttachment(e.target.files[0]) }}
+
                                 />
                                 <label htmlFor="contained-button-file">
                                     <Button style={{ width: '90px', height: '28px', marginLeft: '20px', fontSize: '10px' }} variant="contained" color="primary" component="span" size='small'>
@@ -97,7 +136,7 @@ export default function CompleteActivity() {
 
                         </div>
                         <div style={{ marginTop: '30px' }}>
-                            <Button fullWidth style={buttonStyle}>
+                            <Button fullWidth style={buttonStyle} onClick={(e) => { saveActivityStatus(e) }}>
                                 save
                             </Button>
                             <Button style={buttonStyle} fullWidth>

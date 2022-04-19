@@ -14,12 +14,16 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'; import { useState } from "react";
-import { Axios } from 'axios';
+import  Axios  from 'axios';
+
+
 export default function Comments() {
 
+   
     const params = new URLSearchParams(window.location.search);
-    const postId = params.get("postId");
-
+    const postId = params.get('postID');
+    // console.log(postId);
+    
     const backgroundStyle = {
         backgroundImage: `url(${background})`,
         height: '100vh',
@@ -76,9 +80,9 @@ export default function Comments() {
         });
     };
 
-    useEffect(() => {
-        getComments()
-    }, []);
+    // useEffect(() => {
+    //     getComments()
+    // }, []);
 
     return (
         <div>
@@ -104,8 +108,8 @@ export default function Comments() {
                                     <Paper style={menuPaperStyle}>
                                         {/* <Button onClick={() => { selectCrop('/crops') }} style={buttonStyle}> */}
 
-                                        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '0px', marginTop: '5px', textAlign: 'left' }}>
-                                            Lorem Ipsum is simply t jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj .
+                                        <p style={{ color: "rgba(255,255,255,0.8)", fontSize: '10px', marginLeft: '10px', marginBottom: '6px', marginTop: '5px', textAlign: 'left' }}>
+                                        Lorem Ipsum is simply t jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjLorem Ipsum is simply t jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj .
                                         </p>
 
                                         {/* </Button> */}
@@ -198,7 +202,7 @@ export default function Comments() {
                                 <Button color="primary" style={{ fontSize: '10px', color: 'green', float: 'right', margin: '-15px auto' }}>Reply</Button>
                             </div>
                         </List>
-                        <IconButton aria-label="delete" onClick={() => { navigation(`/addnewcomment/${postId}`) }} size="small" style={{ color: 'green', float: 'right', fontSize: '35px', marginTop: '70px', marginLeft: '200px' }}>
+                        <IconButton aria-label="delete" onClick={() => { navigation(`/addnewcomment/postID=${postId}`) }} size="small" style={{ color: 'green', float: 'right', fontSize: '35px', marginTop: '70px', marginLeft: '200px' }}>
                             <AddCircleOutlineIcon fontSize="inherit" />
                         </IconButton>
                     </Paper>

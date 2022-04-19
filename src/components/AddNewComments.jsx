@@ -47,7 +47,7 @@ export default function AddNewComments() {
         ).token;
 
     const params = new URLSearchParams(window.location.search);
-    const postId = params.get("postId");
+    const postId = params.get("postID");
 
     const [description, setDescription] = useState("");
     const [attachment, setAttachment] = useState("");
@@ -68,7 +68,7 @@ export default function AddNewComments() {
         } else {
             Axios.post(`${process.env.REACT_APP_BASE_URL}/createnewcomment/${postId}`, {
                 comment: description,
-                attachment: attachment,
+                attachment: attachment.name,
                 userId: userId,
             }, {
                 header: {
@@ -76,11 +76,11 @@ export default function AddNewComments() {
                 },
             }).then((response) => {
                 //need to get response from the backend
-                if (response.status == 200) {
-                    navigate('/comments')
+                if (response.status === 200) {
+                    navigate(`/postcomments?postID=${postId}`)
                 } else {
 
-                    navigate('/addnewcomment');
+                    // navigate('/addnewcomment');
                     setResponseErrorMsg("Something went wrong")
                 }
 
@@ -124,7 +124,7 @@ export default function AddNewComments() {
                                     className={classes.input}
                                     id="contained-button-file"
                                     multiple
-                                    onChange={(e) => { setAttachment(e.target.value) }}
+                                    onChange={(e) => { setAttachment(e.target.file[0]) }}
                                     type="file"
                                 />
                                 <label htmlFor="contained-button-file">
@@ -136,7 +136,7 @@ export default function AddNewComments() {
 
                         </div>
                         <div style={{ marginTop: '150px' }}>
-                            <Button onClick={() => { navigation('/community') }}>
+                            <Button onClick={() => { navigation(`/postcomments?postID=${postId}`) }}>
                                 Cancel
                             </Button>
                             <Button style={buttonStyle} onClick={(e) => { createNewComment(e) }}>

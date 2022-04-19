@@ -22,23 +22,23 @@ export default function Varieties() {
   // console.log(ParamsCropId,ParamsCropName);
   const items = [
     {
-      id: 1,
+      varietyId: 'v1',
       variety: "Agra",
     },
     {
-      id: 2,
+      varietyId: 'v2',
       variety: "Parakum",
     },
     {
-      id: 3,
+      varietyId: 'v3',
       variety: "Rathambala",
     },
     {
-      id: 4,
+      varietyId: 'v4',
       variety: "Nadee",
     },
     {
-      id: 5,
+      varietyId: 'v5',
       variety: "Kandula",
     },
   ];
@@ -102,7 +102,7 @@ export default function Varieties() {
               {items.map((list) => (
                 <div key={list.id}>
                   <ListItem alignItems="flex-start">
-                    <Button onClick={() => { selectVariety(`/varietysummery?cropId=${ParamsCropId}&varietyId=${list.id}`); }} style={buttonStyle}>
+                    <Button onClick={() => { selectVariety(`/varietysummery?cropId=${ParamsCropId}&varietyId=${list.varietyId}`); }} style={buttonStyle}>
                       <ListItemAvatar>
                         <Avatar src={cropImage} alt="Sharp" />
                       </ListItemAvatar>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -8,6 +8,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import background from "../assets/growing_activity.jpg";
 import { useNavigate } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
+import Axios from 'axios';
 
 export default function GrowingActivities() {
     const navigate = useNavigate();
@@ -26,9 +27,41 @@ export default function GrowingActivities() {
     const buttonStyle = { width: '300px' }
     const buttonTextStyle = { textAlign: 'left', fontWeight: 'bolder' }
 
-    function selectCrop(url) {
+    const params = new URLSearchParams(window.location.search);
+    const cropId = params.get("cropId");
+    const varietyId = params.get("varietyId");
+
+    function navigation(url) {
         navigate(url);
     }
+
+    var token = document.cookie
+        .split(";")
+        .map((cookie) => cookie.split("="))
+        .reduce(
+            (accumulator, [key, value]) => ({
+                ...accumulator,
+                [key.trim()]: decodeURIComponent(value),
+            }),
+            {}
+        ).token;
+
+    const getGrowingActivities = () => {
+        console.log(cropId, varietyId);
+        Axios.get(`${process.env.REACT_APP_BASE_URL}/getgrowingactivities/${cropId}&${varietyId}`, {
+            headers: {
+                authorization: `Token ${token}`,
+            },
+        }).then((response) => {
+            // need to get data from backend
+        }).catch((error) => {
+            console.log("This is the Error", error);
+        });
+    }
+
+    useEffect(() => {
+        getGrowingActivities();
+    }, []);
 
     return (
         <div>
@@ -41,7 +74,7 @@ export default function GrowingActivities() {
 
                         <List >
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
+                                <Button onClick={() => { navigation('/activitycompletion?activityId=1') }} style={buttonStyle}>
                                     <ListItemText style={buttonTextStyle}
                                         primary="15/02/2022"
                                         secondary={
@@ -56,7 +89,7 @@ export default function GrowingActivities() {
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
+                                <Button onClick={() => { navigation('/activitycompletion') }} style={buttonStyle}>
 
                                     <ListItemText style={buttonTextStyle}
                                         primary="16/02/2022"
@@ -72,7 +105,7 @@ export default function GrowingActivities() {
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
+                                <Button onClick={() => { navigation('/activitycompletion') }} style={buttonStyle}>
 
                                     <ListItemText style={buttonTextStyle}
                                         primary="17/02/2022"
@@ -88,7 +121,7 @@ export default function GrowingActivities() {
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
+                                <Button onClick={() => { navigation('/activitycompletion') }} style={buttonStyle}>
 
                                     <ListItemText style={buttonTextStyle}
                                         primary="18/02/2022"
@@ -104,7 +137,7 @@ export default function GrowingActivities() {
                             </ListItem>
                             <Divider variant="inset" component="li" />
                             <ListItem alignItems="flex-start"  >
-                                <Button onClick={() => { selectCrop('/activitycompletion') }} style={buttonStyle}>
+                                <Button onClick={() => { navigation('/activitycompletion') }} style={buttonStyle}>
 
                                     <ListItemText style={buttonTextStyle}
                                         primary="19/02/2022"

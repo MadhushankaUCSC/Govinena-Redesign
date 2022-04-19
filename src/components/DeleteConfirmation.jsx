@@ -7,25 +7,61 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { useNavigate } from "react-router-dom";
+import Axios from 'axios';
 
-export default function DeleteConfirmation({ isOpen ,setDeleteConfirm}) {
-    const navigate = useNavigate();
+export default function DeleteConfirmation({ isOpen, setConfirm, position, id }) {
+
     const [open, setOpen] = React.useState(!isOpen);
+
+    var token = document.cookie
+        .split(";")
+        .map((cookie) => cookie.split("="))
+        .reduce(
+            (accumulator, [key, value]) => ({
+                ...accumulator,
+                [key.trim()]: decodeURIComponent(value),
+            }),
+            {}
+        ).token;
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     const handleClose = (key) => {
-      
+
         setOpen(false);
-        setDeleteConfirm('gtgtgtgtgt');
-        if(key==='Agree'){
+        // setDeleteConfirm('gtgtgtgtgt');
+        if (key === 'Agree') {
+            if (position === 'singlePost') {
+                console.log("This is the singlePost", id);
+                Axios.delete(`${process.env.REACT_APP_BASE_URL}/deletepost/${id}`, {
+                    header: {
+                        authorization: `Token ${token}`
+                    }
+                }).then((response) => {
+                    //need to get backend response
+                    // window.location.reload();
+                }).catch((error) => {
+                    console.log("This is the error", error);
+                });
+            } else {
+                console.log("This is the list", id);
 
-        }else{
-            window.location.reload();
-
+                Axios.delete(`${process.env.REACT_APP_BASE_URL}/deletelistitem/${id}`, {
+                    header: {
+                        authorization: `Token ${token}`
+                    }
+                }).then((response) => {
+                    //need to get backend response
+                    // window.location.reload();
+                }).catch((error) => {
+                    console.log("This is the error", error);
+                });
+            }
+        } else {
+            // window.location.reload();
+            setConfirm(false);
         }
     };
 
@@ -47,10 +83,10 @@ export default function DeleteConfirmation({ isOpen ,setDeleteConfirm}) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={()=>{handleClose('Disagree')}} color="primary">
+                    <Button autoFocus onClick={() => { handleClose('Disagree') }} color="primary">
                         Disagree
                     </Button>
-                    <Button onClick={()=>{handleClose('Agree')}} color="secondary" autoFocus>
+                    <Button onClick={() => { handleClose('Agree') }} color="secondary" autoFocus>
                         Agree
                     </Button>
                 </DialogActions>

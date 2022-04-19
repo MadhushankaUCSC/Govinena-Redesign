@@ -1,4 +1,4 @@
-import React ,{useEffect,useState}from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -12,7 +12,7 @@ import background from "../assets/main_menu_background.jpg";
 import { useNavigate } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import Popup from './Popup';
-import  Axios  from 'axios';
+import Axios from 'axios';
 const useStyles = makeStyles({
     root: {
         maxWidth: 340,
@@ -25,17 +25,17 @@ const useStyles = makeStyles({
 export default function VarietySummery() {
     const navigate = useNavigate();
 
-    const params=new URLSearchParams(window.location.search);
-    const cropId=params.get("cropId");
-    const varietyId=params.get("varietyId");
+    const params = new URLSearchParams(window.location.search);
+    const cropId = params.get("cropId");
+    const varietyId = params.get("varietyId");
 
-    const [startDate,setStartDate]=useState("");
+    const [startDate, setStartDate] = useState("");
 
     const classes = useStyles();
-    const backgroundStyle = {backgroundImage: `url(${background})`,height: '100vh',backgroundPosition: 'center',backgroundRepeat: 'no-repeat',backgroundSize: 'cover',marginTop: '-30px',paddingTop: '50px' }
-    const actionStyle={marginLeft:'100px'}
+    const backgroundStyle = { backgroundImage: `url(${background})`, height: '100vh', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', marginTop: '-30px', paddingTop: '50px' }
+    const actionStyle = { marginLeft: '100px' }
     const headingStyle = { paddingTop: '10px', fontSize: '28px' }
-    const buttonStyle = { backgroundColor: 'green', color: 'white', marginTop: '20px', marginBottom: '10px',fontSize:'12px' }
+    const buttonStyle = { backgroundColor: 'green', color: 'white', marginTop: '20px', marginBottom: '10px', fontSize: '12px' }
     // var userId = document.cookie
     // .split(';')
     // .map(cookie => cookie.split('='))
@@ -67,9 +67,11 @@ export default function VarietySummery() {
     // }, []);
 
     // const selectedDate = (cropId, varietyId) => {
-    //     Axios.post(`${process.env.REACT_APP_BASE_URL}/selectstartdate/${cropId}&${varietyId}`,{
-// startDate:startDate,
-// userId:userId,
+    //     Axios.post(`${process.env.REACT_APP_BASE_URL}/selectstartdate`,{
+    // startDate:startDate,
+    // userId:userId,
+    // cropId:cropId,
+    // varietyId:varietyId
     // }, {
     //         headers: {
     //             authorization: `Token ${token}`,
@@ -105,7 +107,7 @@ export default function VarietySummery() {
                             <Typography variant="body2" color="textSecondary" component="p" align='left'>
                                 Lizards are a widespread group of squamate reptiles, with over 6,000 species,
                                 rangingreptiles, with over 6,000 species, rangingreptiles, with over 6,000 species,
-                                
+
                                 with over 6,000 species, rangingreptiles, with over 6,000 species, rangingreptiles, with over 6,000 species,
                                 rangingreptiles, with over 6,000 species, ranging
                                 across all continents except Antarctica
@@ -113,10 +115,10 @@ export default function VarietySummery() {
                         </CardContent>
                     </CardActionArea>
                     <CardActions style={actionStyle}>
-                        <Button style={buttonStyle} onClick={()=>{navigation('/community')}}>
+                        <Button style={buttonStyle} onClick={() => { navigation('/community') }}>
                             Community Help
                         </Button>
-                        <Popup setStartDate={setStartDate}/>
+                        <Popup setStartDate={setStartDate} />
                     </CardActions>
                 </Card>
             </Grid>

@@ -34,8 +34,10 @@ export default function EditPost() {
     const inputStyle = { width: '80%', marginTop: '70px', paddingBottom: '15px', color: 'green' }
     
     const params = new URLSearchParams(window.location.search);
-    const postId = params.get("postId");
-    
+    const postId = params.get('postID');
+   
+
+
     var userId = document.cookie
         .split(';')
         .map(cookie => cookie.split('='))
@@ -82,12 +84,12 @@ export default function EditPost() {
 
     const editPost = (e) => {
         e.preventDefault();
-        if (description == "") {
+        if (description === "") {
             setDescriptionErrorMsg("Please Enter description")
-        } else if (tag == '') {
+        } else if (tag === '') {
             setTagErrorMsg("Please Enter tag")
         } else {
-            Axios.post(`${process.env.REACT_APP_BASE_URL}/editpost`, {
+            Axios.post(`${process.env.REACT_APP_BASE_URL}/editpost/${postId}`, {
                 description: description,
                 tag: tag,
                 attachment: attachment,
